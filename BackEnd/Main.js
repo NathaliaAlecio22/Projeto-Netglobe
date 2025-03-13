@@ -9,12 +9,18 @@ const app = express();
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "Home.html"));
 });
 
 app.get("/noticias", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "Noticias.html"));
+});
+
+
+app.get("/noticiasCompletas", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "NoticiaCompleta.html"));
 });
 
 //----------------------------------------------------------------------
@@ -26,7 +32,19 @@ function removerAcentos(str) {
 }
 
 app.get("/data/noticias", (req, res) => {
-  const { q } = req.query; // Pega a palavra chave que o usuário digitou
+  const { q , id} = req.query; // Pega a palavra chave que o usuário digitou
+
+
+  if (id) {
+   
+    const noticiaEncontrada = noticias.find(noticia => noticia.id == id);
+
+    if (noticiaEncontrada) {
+      return res.json(noticiaEncontrada); 
+    } else {
+      return res.status(404).json({ mensagem: "Notícia não encontrada." });
+    }
+  }
 
   if (q) {
     // Normaliza a palavra de pesquisa
@@ -47,7 +65,7 @@ app.get("/data/noticias", (req, res) => {
   }
 
   // Caso não encontre nenhuma palavra, retorna todas as notícias
-  res.json([]);
+  res.json();
 });
 
 const PORT = 3000;

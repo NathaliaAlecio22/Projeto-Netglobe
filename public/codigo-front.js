@@ -11,7 +11,7 @@ function criarEstruturaCard(card_noticia) {
     // imagem
     const img = document.createElement("img");
     img.classList.add("card-img-top");
-    img.src = card_noticia.imagem_url; 
+    img.src = card_noticia.src || "./imagens_banco/maxresdefault.jpg"; 
     img.alt = card_noticia.alt || ""; 
 
     // div de dentro
@@ -27,7 +27,7 @@ function criarEstruturaCard(card_noticia) {
     subtitulo.textContent = card_noticia.subtitulo; 
 
     const link_texto = document.createElement('a');
-    link_texto.href = `noticia.html?id=${card_noticia.id}`;
+    link_texto.href = `/noticiasCompletas?id=${card_noticia.id}`;
     link_texto.classList.add('btn', 'btn-primary');
     link_texto.textContent = "Leia mais"; 
 
@@ -89,3 +89,4 @@ searchButton.addEventListener("click", (event) => {
         window.location.href = `http://localhost:3000/noticias`; // Vai para a página sem filtro se o campo estiver vazio
     }
 });
+
